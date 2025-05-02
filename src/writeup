@@ -1,0 +1,78 @@
+Overview
+   Goal: How can we find the distance between two exoplanets outside our solar system? What is the shortest distance to get from
+         one exoplanet to another? What are the closest exoplanets to another exoplanet?
+   Dataset: https://www.kaggle.com/datasets/adityamishraml/nasaexoplanets
+
+Data processing
+   I loaded it into Rust by downloading the dataset and then writing code that reads the file.
+   I did not have to clean or transform the dataset as it was already cleaned beforehand which was nice.
+
+Code Structure:
+   Modules: The purpose of the graph module was not only because I needed to have a module for the project but because it's easier
+            to have everything related to doing something with the graph in their own separate file.
+   Key functions & types:
+           -struct Graph: This struct is important since it's the core data structure. The adjacency list houses the connections between two nodes
+                         contains information about each node or exoplanet.
+           -bfs_distance: This function is the breadth-first search algorithm that finds the shortest distance between two nodes or exoplanets. 
+                          It's important as I need this in order to answer my question.
+	-from_csv: This function is important as it not only loads the csv file but parses the data and adds linear connections between each node. 
+                          Without this, there would be no paths between nodes in the graph.
+	-struct Planet: This struct is important as it contains the information for each exoplanet from the csv file.
+
+Main workflow
+	At a glance, the graph module creates the graph and contains the necessary functions to perform operations related to the graph such as BFS. The main.rs file only contains the main function that uses all the functions and the graph constructed in the graph module.
+
+Tests
+running 6 tests
+test graph::tests::test_add_edge ... ok
+test graph::tests::test_add_planet ... ok
+test graph::tests::test_bfs_distance_connected ... ok
+test graph::tests::test_bfs_distance_disconnected ... ok
+test graph::tests::test_count_neighbors ... ok
+test graph::tests::test_get_planet_info ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+The first test tests the add_edge function. This is important because that function adds two planets and connects them with an edge. It checks that the edge is added in both directions. The second test tests the add_planet function. This function is important because we want to make sure it is correctly registering the planet in both the node data and adjacency structure. It adds a planet to the graph and checks that both planets and the adjacency list contain it. The third test tests if bfs_distance correctly calculates the distance. It creates a simple path A - B - C and checks that the distance from A to C is correctly calculated as 2. This is important to test to make sure that it correctly calculates shortest path length in a connected graph. The fourth test if it can calculate a distance with no edge. This is important to make sure the program knows what to do if there’s no connection. The fifth test tests the count_neighbors function. It verifies that the number of neighbors is correct. This is important to make sure we get accurate counts for the number of neighbors in our program. The last function tests whether or not it can retrieve the attributes of a planet. This is important to test that the information for a planet is stored correctly and accurately in the graph.
+
+Output
+	Example:
+Start planet: Kepler-1604 b
+Planet {
+    name: "Kepler-1604 b",
+    distance: 1765.0,
+    stellar_magnitude: 15.224,
+    planet_type: "Super Earth",
+    discovery_year: 2016,
+    mass_multiplier: 2.57,
+    mass_wrt: "Earth",
+    radius_multiplier: 1.41,
+    radius_wrt: "Earth",
+    orbital_radius: 0.0089,
+}
+Target planet: Kepler-964 b
+Planet {
+    name: "Kepler-964 b",
+    distance: 1483.0,
+    stellar_magnitude: 14.061,
+    planet_type: "Neptune-like",
+    discovery_year: 2016,
+    mass_multiplier: 5.14,
+    mass_wrt: "Earth",
+    radius_multiplier: 2.12,
+    radius_wrt: "Earth",
+    orbital_radius: 0.1063,
+}
+Breadth-first Search distance from Kepler-1604 b to Kepler-964 b is: 910
+HD 20003 b has 4 neighbors.
+Neighbors of HD 20003 b:
+ - HD 199509 b
+ - HD 19994 b
+ - HD 20003 c
+ - HD 200964 b
+
+If one were to travel from Kepler-1604 b to Kepler-964 b, they would need to travel through 910 edges. The closest exoplanets of HD 20003 b are HD 199509 b, HD 19994 b, HD 20003 c, and HD 200964 b.
+
+Usage Instructions
+	It’s pretty simple. All one has to do is import the necessary crates (rand, csv, serde) and just run the program. There is no user input since all the inputs are randomly generated using the nodes in the graph. The code should take less than 10 seconds to run.
+
