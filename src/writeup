@@ -76,3 +76,7 @@ If one were to travel from Kepler-1604 b to Kepler-964 b, they would need to tra
 Usage Instructions
 	It’s pretty simple. All one has to do is import the necessary crates (rand, csv, serde) and just run the program. There is no user input since all the inputs are randomly generated using the nodes in the graph. The code should take less than 10 seconds to run.
 
+side note
+    I don't have multiple commits of my code to github since I did not see that part of the submission guidelines until after I finished coding.
+    So sorry.
+
